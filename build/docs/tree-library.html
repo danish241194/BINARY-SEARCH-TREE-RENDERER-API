@@ -1,0 +1,1487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-11-11 Sun 22:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Building Interactive Experiment involving Binary Search Trees - API Documentation</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Ankit Pant, Danish Mukhtar, Giridhari Lal Gupta (APS Team) VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="./style/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="./style/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./style/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="./style/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="./index.html"> UP </a>
+ |
+ <a accesskey="H" href="./index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Building Interactive Experiment involving Binary Search Trees - API Documentation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcbdde41">1. Binary Nodes</a></li>
+<li><a href="#org04ac1d8">2. Binary Trees</a>
+<ul>
+<li><a href="#org03ab650">2.1. Binary Tree Class</a>
+<ul>
+<li><a href="#org5dc977c">2.1.1. CreateNode(Value):</a></li>
+<li><a href="#org54200b0">2.1.2. Insert(Value):</a></li>
+<li><a href="#org3d07f01">2.1.3. BuildTree(nodelist)</a></li>
+<li><a href="#org514aef5">2.1.4. GetRootNode():</a></li>
+<li><a href="#org4700ca9">2.1.5. Size():</a></li>
+<li><a href="#org842fa13">2.1.6. Height():</a></li>
+<li><a href="#org091ae1f">2.1.7. Level():</a></li>
+<li><a href="#org6d915d3">2.1.8. Search(Root,Key):</a></li>
+<li><a href="#org5bd29c3">2.1.9. Erase():</a></li>
+<li><a href="#orgaa5b6ba">2.1.10. CopyTree():</a></li>
+<li><a href="#org23d1f08">2.1.11. InOrder():</a></li>
+<li><a href="#org35fe8fe">2.1.12. PreOrder():</a></li>
+<li><a href="#orgf731cfb">2.1.13. PostOrder():</a></li>
+</ul>
+</li>
+<li><a href="#orgfb585ab">2.2. Binary Search Tree Class</a>
+<ul>
+<li><a href="#orgaab19e7">2.2.1. Insert(Value):</a></li>
+<li><a href="#org5ae6fac">2.2.2. BuildTree(Nodelist):</a></li>
+<li><a href="#org1053c8d">2.2.3. Remove(Value):</a></li>
+<li><a href="#org278fa82">2.2.4. CopyTree(node):</a></li>
+<li><a href="#org36c4979">2.2.5. Search(Value):</a></li>
+<li><a href="#org2f99dd8">2.2.6. FindMinimum():</a></li>
+<li><a href="#org786e42b">2.2.7. RightSubtree():</a></li>
+<li><a href="#org8e1fa65">2.2.8. LeftSubtree():</a></li>
+<li><a href="#org68529ae">2.2.9. GenerateState():</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgab0641f">3. Tangle</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcbdde41" class="outline-2">
+<h2 id="orgcbdde41"><span class="section-number-2">1</span> Binary Nodes</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+  A Binary Node are defined as a node consisting of a <b>triplet</b>:&lt;Data,Left-child,Right-Child&gt;. A binary node forms the fundamental unit of all Binary Trees.
+In the JavaScript implementation, a Binary Node is defined as a class which could be used to create Binary Trees of various kinds. The following code snippet shows the definition of the <i>BinaryNode</i> class. Two methods - <i>IsNode()</i> and <i>UpdateKey()</i> are defined as members of this class which check for a valid node and update data in a given node respectively
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="orgb17f3c5">
+<span style="font-weight: bold;">class</span> BinaryNode {
+  constructor(data = <span style="font-weight: bold; text-decoration: underline;">null</span>, left_child = <span style="font-weight: bold; text-decoration: underline;">null</span>, right_child = <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+    <span style="font-weight: bold; text-decoration: underline;">this</span>.data = data;
+    <span style="font-weight: bold; text-decoration: underline;">this</span>.left = left_child;
+    <span style="font-weight: bold; text-decoration: underline;">this</span>.right = right_child;
+
+  }
+  IsNode() {
+    <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.data === <span style="font-weight: bold; text-decoration: underline;">null</span> &amp;&amp; <span style="font-weight: bold; text-decoration: underline;">this</span>.left_child === <span style="font-weight: bold; text-decoration: underline;">null</span> &amp;&amp; <span style="font-weight: bold; text-decoration: underline;">this</span>.right_child === <span style="font-weight: bold; text-decoration: underline;">null</span>)
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">true</span>;
+    <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.data != <span style="font-weight: bold; text-decoration: underline;">null</span>)
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">true</span>;
+    <span style="font-weight: bold;">else</span>
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">false</span>;
+  }
+  UpdateKey(data, new_data) {
+    <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.data === data)
+      <span style="font-weight: bold; text-decoration: underline;">this</span>.data = new_data;
+  }
+}
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org04ac1d8" class="outline-2">
+<h2 id="org04ac1d8"><span class="section-number-2">2</span> Binary Trees</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A Binary Tree is a data structure that contains <b>Binary Nodes</b>.
+</p>
+</div>
+
+<div id="outline-container-org03ab650" class="outline-3">
+<h3 id="org03ab650"><span class="section-number-3">2.1</span> Binary Tree Class</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The <i>BinaryTree</i> class forms the base class from which various binary trees (like Binary Search Trees and AVL Trees) inherit their properties. The class definition and the various methods that this API provides are listed below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="orgfc3c002">
+  <span style="font-weight: bold;">class</span> BinaryTree {
+
+      constructor() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.root = <span style="font-weight: bold; text-decoration: underline;">null</span>;
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+
+      }
+
+      CopyTree(node = <span style="font-weight: bold; text-decoration: underline;">this</span>.root) {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">CloneTree</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>) {
+              <span style="font-weight: bold;">if</span> (Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+                  <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+              <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">create new node and make it a copy of node pointed by Root</span>
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryNode</span>();
+              NewNode.data = Root.data; <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">copying data</span>
+              NewNode.left = CloneTree(Root.left); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">cloning left child</span>
+              NewNode.right = CloneTree(Root.right); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">cloning right child</span>
+              <span style="font-weight: bold;">return</span> NewNode;
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newTree</span> = CloneTree(node);
+          <span style="font-weight: bold;">return</span> newTree;
+      }
+
+      CreateNode(Key) {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryNode</span>(Key);
+          <span style="font-weight: bold;">return</span> NewNode;
+      }
+
+      Insert(Value) {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>.CreateNode(Value);
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">InsertNode</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">newNode</span>) {
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Queue</span> = [];
+              Queue.push(Root); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">push the root</span>
+              <span style="font-weight: bold;">while</span> (<span style="font-weight: bold; text-decoration: underline;">true</span>) {
+                  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node</span> = Queue.pop();
+                  <span style="font-weight: bold;">if</span> (node.left === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      node.left = newNode;
+                      <span style="font-weight: bold;">return</span>;
+                  } <span style="font-weight: bold;">else</span> {
+                      Queue.unshift(node.left)
+                  }
+
+                  <span style="font-weight: bold;">if</span> (node.right === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      node.right = newNode;
+                      <span style="font-weight: bold;">return</span>;
+                  } <span style="font-weight: bold;">else</span> {
+                      Queue.unshift(node.right)
+                  }
+              }
+          }
+          <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.root === <span style="font-weight: bold; text-decoration: underline;">null</span>)
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.root = NewNode;
+          <span style="font-weight: bold;">else</span>
+              InsertNode(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, NewNode);
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+      }
+
+      BuildTree(NodeList = <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+          <span style="font-weight: bold;">for</span> (<span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">node</span> <span style="font-weight: bold;">in</span> NodeList) {
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.Insert(NodeList[node]);
+          }
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+      }
+
+      GetRootNode() {
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>.root;
+      }
+
+      Size() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">CalSize</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>) {
+              <span style="font-weight: bold;">if</span> (Root != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  <span style="font-weight: bold;">return</span> 1 + CalSize(Root.left) + CalSize(Root.right);
+              } <span style="font-weight: bold;">else</span> {
+                  <span style="font-weight: bold;">return</span> 0;
+              }
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">size</span> = CalSize(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+          <span style="font-weight: bold;">return</span> size;
+      }
+
+      GenerateState() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">stater</span>;
+
+          <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.root == <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              console.log(<span style="font-style: italic;">"Root is NULL"</span>)
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+          }
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">gen</span>(<span style="font-weight: bold; font-style: italic;">root</span>, <span style="font-weight: bold; font-style: italic;">starter</span>) {
+
+              <span style="font-weight: bold;">if</span> (root.left != <span style="font-weight: bold; text-decoration: underline;">null</span> || root.right != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  starter.children = []
+
+                  <span style="font-weight: bold;">if</span> (root.left != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+
+                      starter.children.push({
+                          data: root.left.data
+                      })
+                      gen(root.left, starter.children[0])
+                  }
+                  <span style="font-weight: bold;">if</span> (root.right != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+
+                      starter.children.push({
+                          data: root.right.data
+                      })
+                      <span style="font-weight: bold;">if</span> (starter.children.length &gt; 1) {
+
+                          gen(root.right, starter.children[1])
+
+                      } <span style="font-weight: bold;">else</span> {
+                          gen(root.right, starter.children[0])
+
+                      }
+                  }
+              }
+          }
+          stater = {
+              data: <span style="font-weight: bold; text-decoration: underline;">this</span>.root.data,
+              children: []
+          };
+          gen(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, stater)
+          <span style="font-weight: bold;">return</span> stater
+      }
+
+
+      InOrder() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>;
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">Inorderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">node_list</span>) {
+
+              <span style="font-weight: bold;">if</span> (Root !== <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">if</span> (Root.left != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      Inorderhelper(Root.left, node_list);
+                  }
+                  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(Root.data); // Need to save states here</span>
+
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">" "</span> + Root.data + <span style="font-style: italic;">" "</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  node_list.push(Root.data);
+                  <span style="font-weight: bold;">if</span> (Root.right != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      Inorderhelper(Root.right, node_list);
+
+
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                  }
+                  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">return node_list;</span>
+              }
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+          <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), -999, <span style="font-style: italic;">"In Order : [ "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          Inorderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, node_list)
+
+          list = [context.GenerateState(), -999, <span style="font-style: italic;">" ] "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+
+          <span style="font-weight: bold;">return</span> node_list;
+          <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(node_list);</span>
+      }
+
+      PreOrder() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">PreOrderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">node_list</span>) {
+              <span style="font-weight: bold;">if</span> (Root != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">" "</span> + Root.data + <span style="font-style: italic;">" "</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  node_list.push(Root.data);
+                  <span style="font-weight: bold;">if</span> (Root.left != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      PreOrderhelper(Root.left, node_list);
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                  }
+                  <span style="font-weight: bold;">if</span> (Root.right != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      PreOrderhelper(Root.right, node_list);
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                  }
+              }
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+
+          <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), -999, <span style="font-style: italic;">"Pre Order : [ "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          PreOrderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, node_list);
+          list = [context.GenerateState(), -999, <span style="font-style: italic;">" ] "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          <span style="font-weight: bold;">return</span> node_list;
+
+      }
+
+      PostOrder() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">PostOrderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">node_list</span>) {
+              <span style="font-weight: bold;">if</span> (Root != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">if</span> (Root.left != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      PostOrderhelper(Root.left, node_list);
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                  }
+                  <span style="font-weight: bold;">if</span> (Root.right != <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      PostOrderhelper(Root.right, node_list);
+                  }
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">" "</span> + Root.data + <span style="font-style: italic;">" "</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+
+                  node_list.push(Root.data);
+              }
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+          <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), -999, <span style="font-style: italic;">"Post Order : [ "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          PostOrderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, node_list);
+          list = [context.GenerateState(), -999, <span style="font-style: italic;">" ] "</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(node_list);</span>
+          <span style="font-weight: bold;">return</span> node_list;
+      }
+
+
+      Erase() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.root = <span style="font-weight: bold; text-decoration: underline;">null</span>;
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+      }
+
+
+      Height() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">HeightWithRoot</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>) {
+              <span style="font-weight: bold;">if</span> (Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+                  <span style="font-weight: bold;">return</span> 0;
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">lHeight</span> = HeightWithRoot(Root.left);
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">rHeight</span> = HeightWithRoot(Root.right);
+              <span style="font-weight: bold;">if</span> (lHeight &gt; rHeight)
+                  <span style="font-weight: bold;">return</span> 1 + lHeight;
+              <span style="font-weight: bold;">return</span> 1 + rHeight;
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">height</span> = HeightWithRoot(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+          <span style="font-weight: bold;">return</span> height;
+      }
+
+
+
+      Level() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">LevelWithRoot</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>) {
+              <span style="font-weight: bold;">if</span> (Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+                  <span style="font-weight: bold;">return</span> 0;
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">lHeight</span> = LevelWithRoot(Root.left);
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">rHeight</span> = LevelWithRoot(Root.right);
+              <span style="font-weight: bold;">if</span> (lHeight &gt; rHeight)
+                  <span style="font-weight: bold;">return</span> 1 + lHeight;
+              <span style="font-weight: bold;">return</span> 1 + rHeight;
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">level</span> = LevelWithRoot(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+          <span style="font-weight: bold;">return</span> level;
+      }
+
+      Search(Root, Key) {
+          <span style="font-weight: bold;">if</span> (Root === <span style="font-weight: bold; text-decoration: underline;">null</span>)
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+          <span style="font-weight: bold;">if</span> (Key == Root.data)
+              <span style="font-weight: bold;">return</span> Root;
+          <span style="font-weight: bold;">return</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.Search(Root.left, Key) || <span style="font-weight: bold; text-decoration: underline;">this</span>.Search(Root.right, Key));
+      }
+
+
+  };
+
+</pre>
+</div>
+<p>
+The details of the various methods defined in the <i>BinaryTree</i> class are as follows:
+</p>
+</div>
+
+<div id="outline-container-org5dc977c" class="outline-4">
+<h4 id="org5dc977c"><span class="section-number-4">2.1.1</span> CreateNode(Value):</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+The <i>CreateNode</i> method takes the value of the node to be created as an argument. It is invoked by an object of the <i>Binary Tree</i> class and can create a single Binary Node as a result. This method is also used by other methods like <i>Insert</i> to build Binary Trees.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">          CreateNode(Key){
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryNode</span>(Key);
+              <span style="font-weight: bold;">return</span> NewNode;
+          }
+</pre>
+</div>
+
+<p>
+To create a new node the following syntax can be used:
+</p>
+
+<pre class="example">
+	var newTree = new BinaryTree();
+	newTree.CreateNode(10);
+</pre>
+
+<p>
+This creates and returns a Binary Node with node value 10 and value of both Left-child and Right-child as null.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org54200b0" class="outline-4">
+<h4 id="org54200b0"><span class="section-number-4">2.1.2</span> Insert(Value):</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+The <i>Insert</i> method takes the value of the new node to be created as an argument, inserts a new node to the tree and returns the modified tree.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  Insert(Value){
+      <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>.CreateNode(Value);
+       <span style="font-weight: bold;">if</span>(<span style="font-weight: bold; text-decoration: underline;">this</span>.root===<span style="font-weight: bold; text-decoration: underline;">null</span>)
+            <span style="font-weight: bold; text-decoration: underline;">this</span>.root = NewNode;
+        <span style="font-weight: bold;">else</span>
+            InsertNode(<span style="font-weight: bold; text-decoration: underline;">this</span>.root,NewNode);
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;}
+</pre>
+</div>
+
+<p>
+This method calls a helper function called <i>InsertNode</i> defined in the code snippet below.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">InsertNode</span>(<span style="font-weight: bold; font-style: italic;">Root</span>,<span style="font-weight: bold; font-style: italic;">newNode</span>){
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Queue</span> = [];
+              Queue.push(Root); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">push the root</span>
+              <span style="font-weight: bold;">while</span>(<span style="font-weight: bold; text-decoration: underline;">true</span>){
+                  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node</span> = Queue.pop();
+                  <span style="font-weight: bold;">if</span>(node.left === <span style="font-weight: bold; text-decoration: underline;">null</span>){
+                      node.left = newNode;
+                      <span style="font-weight: bold;">return</span>;
+                  } <span style="font-weight: bold;">else</span> {
+                      Queue.unshift(node.left)
+                  }
+
+                  <span style="font-weight: bold;">if</span>(node.right === <span style="font-weight: bold; text-decoration: underline;">null</span>){
+                      node.right = newNode;
+                  <span style="font-weight: bold;">return</span>;
+                  } <span style="font-weight: bold;">else</span> {
+                      Queue.unshift(node.right)
+                  }
+              }
+          }
+
+</pre>
+</div>
+
+<p>
+To insert a new node into the (previously created) Binary Tree, the following syntax is used:
+</p>
+
+<pre class="example">
+  var newTree = new BinaryTree();
+  newTree.Insert(5);
+
+</pre>
+<p>
+This creates a new Binary Node with value = 4 and inserts it as the left-child of the Binary Tree.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3d07f01" class="outline-4">
+<h4 id="org3d07f01"><span class="section-number-4">2.1.3</span> BuildTree(nodelist)</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+This method can be used to rapidly build a Binary Tree. It takes a list of nodes as an argument and constructs the Binary Tree from that list of nodes. It calls the <i>Insert</i> method described as it iterates through the list to construct the tree.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">  BuildTree(NodeList=<span style="font-weight: bold; text-decoration: underline;">null</span>){
+      <span style="font-weight: bold;">for</span>(<span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">node</span> <span style="font-weight: bold;">in</span> NodeList){
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.Insert(NodeList[node]);
+      }
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+  }
+
+</pre>
+</div>
+
+<p>
+This method can be used as:
+</p>
+<pre class="example">
+  newTree.BuildTree([6,8,2,9,1,3]);
+</pre>
+
+<p>
+This will insert in the Binary Tree all then values in the list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org514aef5" class="outline-4">
+<h4 id="org514aef5"><span class="section-number-4">2.1.4</span> GetRootNode():</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+This simple method returns the root element i.e. the Binary Node in the root of the tree.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">      GetRootNode(){
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>.root;
+      }
+</pre>
+</div>
+
+<p>
+Usage:
+</p>
+<pre class="example">
+    newTree.GetRootNode();
+</pre>
+
+<p>
+This returns the root node of the tree (5 in this case)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4700ca9" class="outline-4">
+<h4 id="org4700ca9"><span class="section-number-4">2.1.5</span> Size():</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+This method counts the total number of nodes that are present in the Binary Tree and returns that value. A helper function called <i>CalSize</i> to count the total number of nodes starting from the root node of the tree.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">    Size(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">size</span> = CalSize(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+        <span style="font-weight: bold;">return</span> size;
+    }
+
+</pre>
+</div>
+<p>
+The helper function <i>Calsize</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">CalSize</span> = <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">Root</span>){
+        <span style="font-weight: bold;">if</span>(Root != <span style="font-weight: bold; text-decoration: underline;">null</span>){
+            <span style="font-weight: bold;">return</span>   1 + CalSize(Root.left)   +   CalSize(Root.right);
+        }
+        <span style="font-weight: bold;">else</span>{
+            <span style="font-weight: bold;">return</span> 0;
+        }
+    }
+</pre>
+</div>
+
+<p>
+This method can be used as:
+</p>
+<pre class="example">
+    newTree.Size();
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org842fa13" class="outline-4">
+<h4 id="org842fa13"><span class="section-number-4">2.1.6</span> Height():</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<p>
+This method calculates the height of the Binary Tree and returns that value. A helper function called <i>HeightWithRoot</i> to calculate the height from the root node of the tree.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  Height(){
+      <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">height</span> = HeightWithRoot(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+      <span style="font-weight: bold;">return</span> height;
+  }
+
+</pre>
+</div>
+<p>
+The helper function <i>HeightWithRoot</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">HeightWithRoot</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>){
+            <span style="font-weight: bold;">if</span>(Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+                <span style="font-weight: bold;">return</span> 0;
+            <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">lHeight</span> = HeightWithRoot(Root.left);
+            <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">rHeight</span> = HeightWithRoot(Root.right);
+            <span style="font-weight: bold;">if</span>(lHeight &gt; rHeight)
+                <span style="font-weight: bold;">return</span> 1 + lHeight;
+            <span style="font-weight: bold;">return</span> 1 + rHeight;
+    }
+</pre>
+</div>
+
+<p>
+This method can be used as:
+</p>
+<pre class="example">
+    newTree.Height();
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org091ae1f" class="outline-4">
+<h4 id="org091ae1f"><span class="section-number-4">2.1.7</span> Level():</h4>
+<div class="outline-text-4" id="text-2-1-7">
+<p>
+This method calculates the number of levels (from of the root) of the Binary Tree and returns that value. A helper function called <i>LevelWithRoot</i> to calculate the number of levels from the root node of the tree.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">    Level(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">level</span> = LevelWithRoot(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+        <span style="font-weight: bold;">return</span> level;
+    }
+
+</pre>
+</div>
+<p>
+The helper function <i>LevelWithRoot</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">   <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">LevelWithRoot</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>){
+       <span style="font-weight: bold;">if</span>(Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+           <span style="font-weight: bold;">return</span> 0;
+       <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">lHeight</span> = LevelWithRoot(Root.left);
+       <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">rHeight</span> = LevelWithRoot(Root.right);
+       <span style="font-weight: bold;">if</span>(lHeight &gt; rHeight)
+           <span style="font-weight: bold;">return</span> 1 + lHeight;
+       <span style="font-weight: bold;">return</span> 1 + rHeight;
+  }
+</pre>
+</div>
+
+<p>
+This method can be used as:
+</p>
+<pre class="example">
+    newTree.Level();
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6d915d3" class="outline-4">
+<h4 id="org6d915d3"><span class="section-number-4">2.1.8</span> Search(Root,Key):</h4>
+<div class="outline-text-4" id="text-2-1-8">
+<p>
+This is a helper function which is used by search trees like Binary Search Trees (which extend Binary Tree class). It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  Search(Root, Key){
+      <span style="font-weight: bold;">if</span>(Root === <span style="font-weight: bold; text-decoration: underline;">null</span>)
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+      <span style="font-weight: bold;">if</span>(Key == Root.data)
+          <span style="font-weight: bold;">return</span> Root;
+      <span style="font-weight: bold;">return</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.Search(Root.left, Key) || <span style="font-weight: bold; text-decoration: underline;">this</span>.Search(Root.right, Key));
+  }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5bd29c3" class="outline-4">
+<h4 id="org5bd29c3"><span class="section-number-4">2.1.9</span> Erase():</h4>
+<div class="outline-text-4" id="text-2-1-9">
+<p>
+This simple method is used to erase a Binary Tree. It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  Erase(){
+      <span style="font-weight: bold; text-decoration: underline;">this</span>.root=<span style="font-weight: bold; text-decoration: underline;">null</span>;
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+  }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaa5b6ba" class="outline-4">
+<h4 id="orgaa5b6ba"><span class="section-number-4">2.1.10</span> CopyTree():</h4>
+<div class="outline-text-4" id="text-2-1-10">
+<p>
+This method is used to create a copy of a Binary Tree. It makes a call to a function <i>CloneTree()</i> which creates a copy of the tree from the node passed to it as an argument. It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  CopyTree(node = <span style="font-weight: bold; text-decoration: underline;">this</span>.root){
+      <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newTree</span> = CloneTree(node);
+      <span style="font-weight: bold;">return</span> newTree;
+  }
+
+</pre>
+</div>
+<p>
+The <i>CloneTree()</i> function is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">CloneTree</span> = <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">Root</span>){
+      <span style="font-weight: bold;">if</span>(Root == <span style="font-weight: bold; text-decoration: underline;">null</span>)
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+      <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">create new node and make it a copy of node pointed by Root</span>
+      <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryNode</span>();
+      NewNode.data = Root.data;    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">copying data</span>
+      NewNode.left = CloneTree(Root.left);    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">cloning left child</span>
+      NewNode.right = CloneTree(Root.right);  <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">cloning right child</span>
+      <span style="font-weight: bold;">return</span> NewNode;
+  }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org23d1f08" class="outline-4">
+<h4 id="org23d1f08"><span class="section-number-4">2.1.11</span> InOrder():</h4>
+<div class="outline-text-4" id="text-2-1-11">
+<p>
+This method performs in-order traversal of the tree and returns a list of nodes. It calls a helper function <i>Inorderhelper</i> to traverse through each node. It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  InOrder(){
+      <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+      Inorderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root,node_list)
+      <span style="font-weight: bold;">return</span> node_list;
+      <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(node_list);</span>
+  }
+
+</pre>
+</div>
+<p>
+The helper function <i>Inorderhelper</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">Inorderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>,<span style="font-weight: bold; font-style: italic;">node_list</span>) {
+      <span style="font-weight: bold;">if</span>(Root !== <span style="font-weight: bold; text-decoration: underline;">null</span>){
+          Inorderhelper(Root.left,node_list);
+          <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(Root.data); // Need to save states here</span>
+          node_list.push(Root.data);
+          Inorderhelper(Root.right,node_list);
+          <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">return node_list;</span>
+      }
+  }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org35fe8fe" class="outline-4">
+<h4 id="org35fe8fe"><span class="section-number-4">2.1.12</span> PreOrder():</h4>
+<div class="outline-text-4" id="text-2-1-12">
+<p>
+This method performs pre-order traversal of the tree and returns a list of nodes. It calls a helper function <i>PreOrderhelper</i> to traverse through each node. It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  PreOrder(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+        PreOrderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root,node_list);
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(node_list);</span>
+        <span style="font-weight: bold;">return</span> node_list;
+    }
+
+</pre>
+</div>
+<p>
+The helper function <i>PreOrderhelper</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">PreOrderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">node_list</span>){
+      <span style="font-weight: bold;">if</span>(Root != <span style="font-weight: bold; text-decoration: underline;">null</span>){
+          node_list.push(Root.data);
+          PreOrderhelper(Root.left,node_list);
+          PreOrderhelper(Root.right,node_list);
+      }
+  }
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf731cfb" class="outline-4">
+<h4 id="orgf731cfb"><span class="section-number-4">2.1.13</span> PostOrder():</h4>
+<div class="outline-text-4" id="text-2-1-13">
+<p>
+This method performs post-order traversal of the tree and returns a list of nodes. It calls a helper function <i>PostOrderhelper</i> to traverse through each node. It is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  PostOrder(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">node_list</span> = [];
+        PostOrderhelper(<span style="font-weight: bold; text-decoration: underline;">this</span>.root,node_list);
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">console.log(node_list);</span>
+        <span style="font-weight: bold;">return</span> node_list;
+    }
+
+</pre>
+</div>
+<p>
+The helper function <i>PostOrderhelper</i> is defined as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">PostOrderhelper</span>(<span style="font-weight: bold; font-style: italic;">Root</span>,<span style="font-weight: bold; font-style: italic;">node_list</span>){
+      <span style="font-weight: bold;">if</span>(Root != <span style="font-weight: bold; text-decoration: underline;">null</span>){
+          PostOrderhelper(Root.left,node_list);
+          PostOrderhelper(Root.right,node_list);
+          node_list.push(Root.data);
+      }
+  }
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfb585ab" class="outline-3">
+<h3 id="orgfb585ab"><span class="section-number-3">2.2</span> Binary Search Tree Class</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+The Binary Search Tree Class is used to create Binary Search Trees and perform various operations on them.Binary Search Trees are special binary trees with the property that the value of <b>Left-child</b> in the triplet <b>(Data,Left-child,Right-child)</b> is always less than the value of <b>Data</b> which is in turn less than the value of <b>Right-child</b>. The state information of the Binary Search Tree is also preserved during operation which along with a status message is stored in the <i>animationState</i> list which can be used by a renderer program to generate a visual representation of the Binary Search Trees (using the information stored in JSON format)  Following are the methods defined on a Binary Search Tree. Notice that most of these methods use the methods defined in <i>BinaryTree</i> class as <i>BinarySearchTree</i> class inherits from the <i>BinaryTree</i> class.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org72f70b8">
+  <span style="font-weight: bold;">class</span> BinarySearchTree <span style="font-weight: bold;">extends</span> BinaryTree {
+      constructor() {
+          <span style="font-weight: bold;">super</span>();
+      }
+
+
+      CopyTree(node = <span style="font-weight: bold; text-decoration: underline;">this</span>.root) {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinarySearchTree</span>();
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">TempTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryTree</span>();
+          newTree.root = TempTree.CopyTree(<span style="font-weight: bold; text-decoration: underline;">this</span>.root);
+          <span style="font-weight: bold;">return</span> newTree;
+      }
+
+      FindMinimum() {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.root == <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), -999, <span style="font-style: italic;">"Tree is empty!&lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+          }
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.FindMinNode(<span style="font-weight: bold; text-decoration: underline;">this</span>.root)
+      }
+
+      FindMinNode(Root) {
+          <span style="font-weight: bold;">if</span> (Root.left === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") node has no left child therefore ("</span> + Root.data + <span style="font-style: italic;">") is the minimum valued node.&lt;br&gt;"</span>, <span style="font-style: italic;">"blue"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+
+              list = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"blue"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+
+              list = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"blue"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+              <span style="font-weight: bold;">return</span> Root;
+
+          } 
+          <span style="font-weight: bold;">else</span> {
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has a left child ("</span> + Root.left.data + <span style="font-style: italic;">") so we will continue traversing its left child to find the minimum node&lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>.FindMinNode(Root.left);
+          }
+
+      }
+      Search(data) {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>.SearchFactory(data)
+      }
+      SearchFactory(data) {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">SearchWithRoot</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">Key</span>) {
+              <span style="font-weight: bold;">if</span> (Root === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), -999, <span style="font-style: italic;">"We've encountered a null node while searching for ("</span> + Key + <span style="font-style: italic;">"). This implies that the search key is not present&lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+                  
+              }
+              <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (Key &lt; Root.data) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Key + <span style="font-style: italic;">") is less than ("</span> + Root.data + <span style="font-style: italic;">") so we traverse left &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">return</span> SearchWithRoot(Root.left, Key);
+                  
+              } 
+              <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (Key &gt; Root.data) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Key + <span style="font-style: italic;">") is greater than ("</span> + Root.data + <span style="font-style: italic;">") so we traverse right &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">return</span> SearchWithRoot(Root.right, Key);
+
+              } 
+              <span style="font-weight: bold;">else</span> {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"("</span> + Key + <span style="font-style: italic;">") Found! &lt;br&gt;"</span>, <span style="font-style: italic;">"#ffae42"</span>]
+                  context.animationState.push(list)
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#ffae42"</span>]
+                  context.animationState.push(list)
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#ffae42"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">return</span> Root;
+                  
+              }
+          }
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">found</span> = SearchWithRoot(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, data);
+          <span style="font-weight: bold;">return</span> found;
+      }
+
+      RightSubTree() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinarySearchTree</span>();
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">TempTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryTree</span>();
+          newTree.root = TempTree.CopyTree(<span style="font-weight: bold; text-decoration: underline;">this</span>.root.right);
+          <span style="font-weight: bold;">return</span> newTree;
+      }
+      
+      LeftSubTree() {
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinarySearchTree</span>();
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">TempTree</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">BinaryTree</span>();
+          newTree.root = TempTree.CopyTree(<span style="font-weight: bold; text-decoration: underline;">this</span>.root.left);
+          <span style="font-weight: bold;">return</span> newTree;
+      }
+
+
+      Insert(Key) {
+          
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">found</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>.SearchFactory(Key);
+          <span style="font-weight: bold;">if</span> (found !== <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              console.log(<span style="font-style: italic;">"Node with value ("</span>, Key, <span style="font-style: italic;">") already exists! No insertion done"</span>);
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+              <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), -999, <span style="font-style: italic;">"Node with value ("</span> + Key + <span style="font-style: italic;">") already exists! Therefore no insertion done"</span>, <span style="font-style: italic;">"black"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+          }
+
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">NewNode</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>.CreateNode(Key);
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>;
+
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">InsertNode</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">newNode</span>) {
+              <span style="font-weight: bold;">if</span> (newNode.data &lt; Root.data) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + newNode.data + <span style="font-style: italic;">") is less than ("</span> + Root.data + <span style="font-style: italic;">") so we will traverse left &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+                  <span style="font-weight: bold;">if</span> (Root.left === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has no left-child, so we will add the node as the left-child &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                      Root.left = newNode;
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">"("</span> + newNode.data + <span style="font-style: italic;">") added to the tree &lt;br&gt;"</span>, <span style="font-style: italic;">"#006400"</span>]
+
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+                      context.animationState.push(list)
+                  } 
+                  <span style="font-weight: bold;">else</span>
+                      InsertNode(Root.left, newNode);
+              }
+              <span style="font-weight: bold;">else</span> {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + newNode.data + <span style="font-style: italic;">") is greater than ("</span> + Root.data + <span style="font-style: italic;">") so we will traverse right &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">if</span> (Root.right === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has no right-child, so we will add the node as the right-child &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                      context.animationState.push(list)
+                      Root.right = newNode;
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">"("</span> + newNode.data + <span style="font-style: italic;">") added to the tree &lt;br&gt;"</span>, <span style="font-style: italic;">"#006400"</span>]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+                      context.animationState.push(list)
+
+                  } 
+                  <span style="font-weight: bold;">else</span> {
+
+                      InsertNode(Root.right, newNode);
+
+                  }
+              }
+          }
+
+          <span style="font-weight: bold;">if</span> (<span style="font-weight: bold; text-decoration: underline;">this</span>.root === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.root = NewNode;
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), <span style="font-weight: bold; text-decoration: underline;">this</span>.root.data, <span style="font-style: italic;">"Tree has no nodes thus we add ("</span> + NewNode.data + <span style="font-style: italic;">") as the root node &lt;br&gt;"</span>, <span style="font-style: italic;">"#006400"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+              
+              list = [context.GenerateState(), <span style="font-weight: bold; text-decoration: underline;">this</span>.root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+              list = [context.GenerateState(), <span style="font-weight: bold; text-decoration: underline;">this</span>.root.data, <span style="font-style: italic;">""</span>, <span style="font-style: italic;">"#006400"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+
+          }
+          <span style="font-weight: bold;">else</span> {
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+              <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">list</span> = [<span style="font-weight: bold; text-decoration: underline;">this</span>.GenerateState(), <span style="font-weight: bold; text-decoration: underline;">this</span>.root.data, <span style="font-style: italic;">"We Insert to the tree by exploring from the root node &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState.push(list)
+
+              InsertNode(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, NewNode);
+
+          }
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+      }
+
+
+
+      BuildTree(NodeList = <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+          <span style="font-weight: bold;">for</span> (<span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">node</span> <span style="font-weight: bold;">in</span> NodeList) {
+              <span style="font-weight: bold; text-decoration: underline;">this</span>.Insert(NodeList[node]);
+          }
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+      }
+
+      Remove(data) {
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">context</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">found</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>.SearchFactory(data);
+          <span style="font-weight: bold;">if</span> (found === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+              console.log(<span style="font-style: italic;">"Node with data ("</span>, data, <span style="font-style: italic;">") not found!"</span>);
+              <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+          }
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.animationState = []
+          <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">that</span> = <span style="font-weight: bold; text-decoration: underline;">this</span>;
+          
+          <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">RemoveNode</span>(<span style="font-weight: bold; font-style: italic;">Root</span>, <span style="font-weight: bold; font-style: italic;">data</span>) {
+              <span style="font-weight: bold;">if</span> (Root === <span style="font-weight: bold; text-decoration: underline;">null</span>)
+                  <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">null</span>;
+              <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (data &lt; Root.data) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + data + <span style="font-style: italic;">") is less than ("</span> + Root.data + <span style="font-style: italic;">") so we will traverse left &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  Root.left = RemoveNode(Root.left, data);
+                  <span style="font-weight: bold;">return</span> Root;
+              }
+              <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (data &gt; Root.data) {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + data + <span style="font-style: italic;">") is greater than ("</span> + Root.data + <span style="font-style: italic;">") so we will traverse right &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+                  context.animationState.push(list)
+                  Root.right = RemoveNode(Root.right, data);
+                  <span style="font-weight: bold;">return</span> Root;
+              } 
+              <span style="font-weight: bold;">else</span> {
+                  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Reached ("</span> + Root.data + <span style="font-style: italic;">") node &lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  
+                  <span style="font-weight: bold;">if</span> (Root.left === <span style="font-weight: bold; text-decoration: underline;">null</span> &amp;&amp; Root.right === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has no children so will return null to its parent &lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                      context.animationState.push(list)
+
+                      Root = <span style="font-weight: bold; text-decoration: underline;">null</span>;
+                      <span style="font-weight: bold;">return</span> Root;
+                  }
+                  <span style="font-weight: bold;">if</span> (Root.left === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      list = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has no left child but a right child, so we will attach the right child i.e. ("</span> + Root.right.data + <span style="font-style: italic;">")  to ("</span> + Root.data + <span style="font-style: italic;">")'s parent node &lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                      context.animationState.push(list)
+                      Root = Root.right;
+                      <span style="font-weight: bold;">return</span> Root;
+                  }
+                  <span style="font-weight: bold;">else</span> <span style="font-weight: bold;">if</span> (Root.right === <span style="font-weight: bold; text-decoration: underline;">null</span>) {
+                      <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">") has no right child but a left child so  we will attach the left child i.e. ("</span> + Root.left.data + <span style="font-style: italic;">")  to ("</span> + Root.data + <span style="font-style: italic;">")'s parent &lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                      context.animationState.push(list)
+                      Root = Root.left;
+                      <span style="font-weight: bold;">return</span> Root;
+                  }
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Since ("</span> + Root.data + <span style="font-style: italic;">" has both a left child as well as a right child so we will pick the minimum of the ("</span> + Root.data + <span style="font-style: italic;">")s right subtree i.e the successor node&lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">aux</span> = that.FindMinNode(Root.right);
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Now ("</span> + Root.data + <span style="font-style: italic;">") will get replaced by ("</span> + aux.data + <span style="font-style: italic;">") &lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  Root.data = aux.data;
+
+                  list = [context.GenerateState(), Root.data, <span style="font-style: italic;">"Now we will delete ("</span> + aux.data + <span style="font-style: italic;">") from  the right subtree. Deletion Complete.&lt;br&gt;"</span>, <span style="font-style: italic;">"red"</span>]
+                  context.animationState.push(list)
+                  Root.right = RemoveNode(Root.right, aux.data);
+                  <span style="font-weight: bold;">return</span> Root;
+              }
+          }
+          
+          <span style="font-weight: bold; text-decoration: underline;">this</span>.root = RemoveNode(<span style="font-weight: bold; text-decoration: underline;">this</span>.root, data);
+          <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">list</span> = [context.GenerateState(), -999, <span style="font-style: italic;">"We now have the Resultant Tree after performing deletion &lt;br&gt;"</span>, <span style="font-style: italic;">"black"</span>]
+          context.animationState.push(list)
+          <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>;
+      }
+
+
+  };
+
+
+</pre>
+</div>
+
+<p>
+The details of the various methods defined in the <i>BinarySearchTree</i> class are as follows:
+</p>
+
+<p>
+A new Binary Search Tree can be declared (by calling the constructor) as:
+</p>
+<pre class="example">
+	var bst = new BinarySearchTree();
+</pre>
+</div>
+
+<div id="outline-container-orgaab19e7" class="outline-4">
+<h4 id="orgaab19e7"><span class="section-number-4">2.2.1</span> Insert(Value):</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+This method is used to create a new Binary Node and insert into the existing Binary Search Tree or if no nodes exist in the tree, it designated the newly created node as the root of the tree. It overrides the <i>Insert</i> method of the <i>BinaryTree</i> class. The method internally call a helper function <i>InsertNode</i> to insert the newly created node in the tree. The method can be used as:
+</p>
+
+<pre class="example">
+	bst.Insert(5);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5ae6fac" class="outline-4">
+<h4 id="org5ae6fac"><span class="section-number-4">2.2.2</span> BuildTree(Nodelist):</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+This method can be used to rapidly build a Binary Search Tree. It takes a list of nodes as an argument and constructs the Binary Tree from that list of nodes. It overrides the <i>BuildTree</i> method of the <i>BinaryTree</i> class. It calls the <i>Insert</i> method described as it iterates through the list to construct the tree. The method can be used as:
+</p>
+
+<pre class="example">
+	bst.BuildTree([4,6,8,9,7,2,1,3]);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1053c8d" class="outline-4">
+<h4 id="org1053c8d"><span class="section-number-4">2.2.3</span> Remove(Value):</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+This method is used to remove a particular node from the Binary Search Tree. It takes the value of the node to be removed as an argument. This method overrides the <i>Remove</i> method of the <i>BinaryTree</i> class. It internally calls the helper function <i>RemoveNode</i>. It can be used as:
+</p>
+
+<pre class="example">
+	bst.Remove(8);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org278fa82" class="outline-4">
+<h4 id="org278fa82"><span class="section-number-4">2.2.4</span> CopyTree(node):</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+This method is used to create a copy of the Binary Search Tree and return the created copy (which can then be assigned to another object of type Binary Search Tree) starting from the node given as a parameter (default parameter is root of tree). It internally calls the <i>CopyNode</i> method of the <i>BinaryTree</i> tree. It can be used as:
+</p>
+
+<pre class="example">
+	var bst2 = new BinarySearchTree();   //create new object of BinarySearchTree class
+	bst2 = bst.CopyTree();
+	//To copy the left subtree from root
+	bst2 = bst.CopyTree(root.left);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org36c4979" class="outline-4">
+<h4 id="org36c4979"><span class="section-number-4">2.2.5</span> Search(Value):</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+Using this method it is possible to search for a value given as parameter in the Binary Search Tree. If the node having value as the one given given as a parameter exists, it is returned, else a 'Node not found' message is returned. It internally calls a helper function <i>SearchFactory</i>. This method overrides the <i>Search</i> method defined in <i>BinaryTree</i> class. It can be used as:
+</p>
+
+<pre class="example">
+	bst.Search(6);
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org2f99dd8" class="outline-4">
+<h4 id="org2f99dd8"><span class="section-number-4">2.2.6</span> FindMinimum():</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<p>
+This method returns the minimum valued node in the Binary Search Tree. It internally calls the <i>FindMinNode</i> helper function. It can be used as:
+</p>
+
+<pre class="example">
+	bst.FindMinimum();
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org786e42b" class="outline-4">
+<h4 id="org786e42b"><span class="section-number-4">2.2.7</span> RightSubtree():</h4>
+<div class="outline-text-4" id="text-2-2-7">
+<p>
+This method return the right subtree of the Binary Search Tree. It internally calls the <i>CopyTree</i> method. Since a Binary Search Tree is returned, it can be assigned to another object of <i>BinarySearchTree</i> class. It can be used as:
+</p>
+
+<pre class="example">
+	bst2 = new BinarySearchTree();
+	bst2 = bst.RightSubtree();
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8e1fa65" class="outline-4">
+<h4 id="org8e1fa65"><span class="section-number-4">2.2.8</span> LeftSubtree():</h4>
+<div class="outline-text-4" id="text-2-2-8">
+<p>
+This method return the left subtree of the Binary Search Tree. It internally calls the <i>CopyTree</i> method. Since a Binary Search Tree is returned, it can be assigned to another object of <i>BinarySearchTree</i> class. It can be used as:
+</p>
+
+<pre class="example">
+	bst2 = new BinarySearchTree();
+	bst2 = bst.LeftSubtree();
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org68529ae" class="outline-4">
+<h4 id="org68529ae"><span class="section-number-4">2.2.9</span> GenerateState():</h4>
+<div class="outline-text-4" id="text-2-2-9">
+<p>
+This method is for internal usage to generate the state of the Binary Search Tree that is later used by the renderer and subsequently by the user application.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab0641f" class="outline-2">
+<h2 id="orgab0641f"><span class="section-number-2">3</span> Tangle</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-js">&lt;&lt;Binary_Node_Class&gt;&gt;
+&lt;&lt;Binary_Tree_Class&gt;&gt;
+&lt;&lt;Binary_Search_Tree_Class&gt;&gt;
+&lt;&lt;AVL_Tree_Class&gt;&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ankit Pant, Danish Mukhtar, Giridhari Lal Gupta (APS Team) VLEAD</p>
+<p class="date">Created: 2018-11-11 Sun 22:01</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

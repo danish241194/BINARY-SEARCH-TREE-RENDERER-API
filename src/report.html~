@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Building Interactive Experiment involving Binary Search Trees - Project Report <br> By: <br> Ankit Pant - 2018201035 <br>  Danish Mukhtar – 2018201016 \\ Giridhari Lal Gupta – 2018201019</title>
+<!-- 2018-11-11 Sun 11:28 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="./style/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="./style/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./style/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="./style/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="./index.html"> UP </a>
+ |
+ <a accesskey="H" href="./index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Building Interactive Experiment involving Binary Search Trees - Project Report <br> By: <br> Ankit Pant - 2018201035 <br>  Danish Mukhtar – 2018201016 \\ Giridhari Lal Gupta – 2018201019</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Introduction</a></li>
+<li><a href="#sec-2">2. The User Interface</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Top-bar with Command Palette</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. Add new node:</a></li>
+<li><a href="#sec-2-1-2">2.1.2. Remove a node:</a></li>
+<li><a href="#sec-2-1-3">2.1.3. Search for a node :</a></li>
+<li><a href="#sec-2-1-4">2.1.4. Find Minimum node:</a></li>
+<li><a href="#sec-2-1-5">2.1.5. Pre Order:</a></li>
+<li><a href="#sec-2-1-6">2.1.6. In Order:</a></li>
+<li><a href="#sec-2-1-7">2.1.7. Post Order:</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">2.2. Tree rendering area</a></li>
+<li><a href="#sec-2-3">2.3. Status bar</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Operations on Binary Search Tree</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Insert:</a></li>
+<li><a href="#sec-3-2">3.2. Remove:</a></li>
+<li><a href="#sec-3-3">3.3. Search:</a></li>
+<li><a href="#sec-3-4">3.4. FindMinimum:</a></li>
+<li><a href="#sec-3-5">3.5. PreOrder:</a></li>
+<li><a href="#sec-3-6">3.6. InOrder:</a></li>
+<li><a href="#sec-3-7">3.7. PostOrder:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This web application enables the end-user to understand the Binary Search Tree data structure effectively. The following sections elaborate on the components and the functionality provided to the user.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> The User Interface</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The user interface is divided into three main components:
+</p>
+<ul class="org-ul">
+<li>Top-bar with Command Palette
+</li>
+<li>Tree rendering area
+</li>
+<li>Status bar
+</li>
+</ul>
+<p>
+The following sub-sections elaborate on these components.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Top-bar with Command Palette</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+This area is user-interact-able. It provides the user with various buttons to perform various operations on the Binary Search Tree. The supported operations are:
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Add new node:</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+This enables the user to add a new Binary Node into the Binary Search Tree. On clicking the button, a popup ask the user the value of the node to be inserted. On entering a valid value, a new new is inserted into the Binary Search Tree. Currently only integer values are supported and repetition of node values is not allowed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Remove a node:</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+This button enables the user to remove an existing node from the Binary Search Tree. On clicking the button, a popup asks the user to enter the value of the node to be removed. If a node with the entered value exists, it is removed from the node.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Search for a node :</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+This button enables the user to search for a given value in the Binary Search Tree. A corresponding message (found or not found) is thence displayed in the Status bar.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-4" class="outline-4">
+<h4 id="sec-2-1-4"><span class="section-number-4">2.1.4</span> Find Minimum node:</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+On clicking this button the node with the minimum value in the Binary Search Tree is found and corresponding message is displayed in the Status bar.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-5" class="outline-4">
+<h4 id="sec-2-1-5"><span class="section-number-4">2.1.5</span> Pre Order:</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+This button enables the user to obtain the pre-order traversal of the Binary Search Tree. The Tree-rendering area shows the order of the visited nodes and the Status bar shows the order of the nodes visited.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-6" class="outline-4">
+<h4 id="sec-2-1-6"><span class="section-number-4">2.1.6</span> In Order:</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<p>
+This button enables the user to obtain the in-order traversal of the Binary Search Tree. The Tree-rendering area shows the order of the visited nodes and the Status bar shows the order of the nodes visited.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-7" class="outline-4">
+<h4 id="sec-2-1-7"><span class="section-number-4">2.1.7</span> Post Order:</h4>
+<div class="outline-text-4" id="text-2-1-7">
+<p>
+This button enables the user to obtain the post-order traversal of the Binary Search Tree. The Tree-rendering area shows the order of the visited nodes and the Status bar shows the order of the nodes visited.  
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Tree rendering area</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+The user can see the visual representation of the Binary Search Tree in this area. Through various animations, the various operations are rendered one step at a time to let the user follow the working of the algorithm. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Status bar</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The various steps of the algorithm and messages are displayed to the user in the Status bar. Being scroll-able, the status bar allows the user to review all the operations the user has performed on the Binary Search Tree. The display of steps of the algorithm in the status bar is in synchronisation with the animations in the Tree rendering area so that the user can understand each step of the algorithm more effectively.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Operations on Binary Search Tree</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This implementation of Binary Search Trees provides with all the common operations on a Binary Search Tree. The following sub-sections describe these operations in greater detail.
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Insert:</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+This method is invoked when the user clicks on the <i>Add new node</i> button. It inserts a new Binary Node in a Binary Search Tree. On clicking the button, the user is prompted to input the value of the (new) node to be created. On entering a valid value (only integers are currently supported), a new node is created and added to the Binary Search Tree. The operation of this method can be visualised in the animated gif below. This <a href="insert.gif">link</a> displays the file in full size.
+</p>
+
+<div class="figure">
+<p><img src="insert.gif" alt="insert.gif" /> 
+</p>
+<p><span class="figure-number">Figure 1:</span> Inserting into Binary Search Tree</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Remove:</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+This method is invoked when the user clicks on the <i>Remove a node</i> button. It removes an existing node from the Binary Search Tree. On clicking the button, the user is prompted to input the value of the node to be removed from the tree. On entering a valid value (only integers are currently supported), if the node exists in the tree, it is deleted, else a message in the lines of 'Not Found' is displayed on the Status bar. The operation of this method can be visualised in the animated gif below.  This <a href="delete.gif">link</a> displays the file in full size.
+</p>
+
+<div class="figure">
+<p><img src="delete.gif" alt="delete.gif" />
+</p>
+<p><span class="figure-number">Figure 2:</span> Removing from a Binary Search Tree</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Search:</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+This method is invoked when the user clicks on the <i>Search for a node</i> button. It searches for the node in the Binary Search Tree whose value is equal to the value entered by the user. After completion it displays a suitable message on the Status bar (found/not found) as well as highlights the node in the tree if the search entry is found. The operation of this method can be visualised in the animated gif below.  This <a href="search.gif">link</a> displays the file in full size.
+</p>
+
+
+<div class="figure">
+<p><img src="search.gif" alt="search.gif" />
+</p>
+<p><span class="figure-number">Figure 3:</span> Searching for a node</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> FindMinimum:</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+This method is invoked when the user clicks on the <i>Find Minimum node</i> button. It traverses the left sub-tree of the Binary Search Tree (if present) to find the node with the lest value in the tree.  The operation of this method can be visualised in the animated gif below.  This <a href="minimum.gif">link</a> displays the file in full size.
+</p>
+
+
+<div class="figure">
+<p><img src="minimum.gif" alt="minimum.gif" />
+</p>
+<p><span class="figure-number">Figure 4:</span> Finding the minimum node</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> PreOrder:</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+This method is invoked when the user clicks on the <i>Pre Order</i> button. It traverses the entire Binary Search Tree in a pre-order fashion (Left-child -&gt; Root -&gt; Right-child). The resultant traversal is both rendered as well as the order of nodes is displayed on the status bar. The operation of this method can be visualised in the animated gif below.  This <a href="preorder.gif">link</a> displays the file in full size.
+</p>
+
+
+<div class="figure">
+<p><img src="preorder.gif" alt="preorder.gif" />
+</p>
+<p><span class="figure-number">Figure 5:</span> In Order Traversal of the tree</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> InOrder:</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+This method is invoked when the user clicks on the <i>In Order</i> button. It traverses the entire Binary Search Tree in a in-order fashion (Root -&gt; Left-child -&gt; Right-child). The resultant traversal is both rendered as well as the order of nodes is displayed on the status bar. The operation of this method can be visualised in the animated gif below.  This <a href="inorder.gif">link</a> displays the file in full size.
+</p>
+
+
+<div class="figure">
+<p><img src="inorder.gif" alt="inorder.gif" />
+</p>
+<p><span class="figure-number">Figure 6:</span> In Order Traversal of the tree</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> PostOrder:</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+This method is invoked when the user clicks on the <i>Post Order</i> button. It traverses the entire Binary Search Tree in a post-order fashion (Left-child -&gt; Right-child -&gt; Root). The resultant traversal is both rendered as well as the order of nodes is displayed on the status bar. The operation of this method can be visualised in the animated gif below. This <a href="postorder.gif">link</a>displays the file in full size.
+</p>
+
+
+<div class="figure">
+<p><img src="postorder.gif" alt="postorder.gif" />
+</p>
+<p><span class="figure-number">Figure 7:</span> In Order Traversal of the tree</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2018-11-11 Sun 11:28</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

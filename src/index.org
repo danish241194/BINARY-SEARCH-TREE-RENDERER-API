@@ -1,0 +1,20 @@
+#+TITLE: Building Interactive Experiment involving Binary Search Trees
+#+AUTHOR:  Ankit Pant, Danish Mukhtar, Giridhari Lal Gupta (APS Team)
+
+
+
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  This project was completed towards the requirements of the Advanced Problem Solving Course. The document is divided into two sub-sections which elaborate upon the Report that was created as part of the project and the Documentation for the API that was created for the project.
+
+** Project Report
+   The project report emphasises on the User Interface and User's interaction with the experiment.
+   The Project Report can be found  [[file:./report.html][here]].
+
+** API Documentation
+   The API Documentation contains the specifications of the Binary Tree library.
+   The documentation can be found [[file:./tree-library.html][here]].

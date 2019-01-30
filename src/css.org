@@ -1,0 +1,88 @@
+#+TITLE:  Building Interactive Experiment involving Binary Search Trees - Styles
+#+AUTHOR: Ankit Pant, Danish Mukhtar, Giridhari Lal Gupta (APS Team)
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+
+* Introduction
+	The following code is used to enhance the presentation of the application front-end that the user interacts with.
+
+* Styles
+
+#+NAME: main
+#+BEGIN_SRC css
+
+#heading{
+    border: 2px solid greenyellow;
+    background-color: rgba(27, 27, 27, 0.938);
+    text-align: center;
+    padding:0.25%;
+    box-shadow: 8px 8px 8px -1px gray;
+    position: sticky;
+    top:0;
+    color:white
+}
+#Main-heading{
+    text-shadow: 2px 1px rgb(245, 245, 245), 3px 3px rgba(219, 65, 18, 0.856);
+    font-weight: bold;
+    font-family: cursive;
+}
+
+.palette{
+    width:100%;
+    height: fit-content;
+    text-align: center;
+    z-index: 2;
+    border: 2px double rgb(0, 204, 255);
+    background-color: rgb(31, 31, 31);
+    padding: 0.5%;
+    /* margin-left: 20%; */
+    /* margin-top: 0.3%; */
+    box-shadow: 5px 5px 5px 2px rgb(128, 128, 128);
+    position: fixed sticky;
+    top: 12.5%;
+}
+
+.btn{
+    padding: 5%;
+    margin-left: 10px !important;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    /* margin-left: 5%; */
+    /* box-shadow: 2px 1px 2px 2px; */
+    font-weight: bold;
+
+}
+
+.tree-container{
+    /* border: 2px solid rgb(255, 0, 255); */
+    margin-top: 2%;
+    margin-left: 18%;
+    height: 65%;
+    width: 70%;
+    overflow: auto;
+    text-align: center;
+    /* align-content: center; */
+    /* align-items: center; */
+     
+}
+
+.statusbar{
+    border: 2px solid greenyellow;
+    height:10%;
+    /* position: fixed;
+    bottom:0%; */
+    width:100%;
+    overflow-y: auto;
+    margin-top:10px;
+    padding-left: 5%;
+    
+}
+
+#+END_SRC
+* Tangle
+#+BEGIN_SRC css  :tangle index.css :eval no :noweb yes
+<<main>>
+#+END_SRC

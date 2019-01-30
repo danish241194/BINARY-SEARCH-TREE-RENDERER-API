@@ -1,0 +1,1241 @@
+#+TITLE: Building Interactive Experiment involving Binary Search Trees - API Documentation
+#+AUTHOR: Ankit Pant, Danish Mukhtar, Giridhari Lal Gupta (APS Team)
+
+
+
+
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Binary Nodes
+  A Binary Node are defined as a node consisting of a *triplet*:<Data,Left-child,Right-Child>. A binary node forms the fundamental unit of all Binary Trees.
+In the JavaScript implementation, a Binary Node is defined as a class which could be used to create Binary Trees of various kinds. The following code snippet shows the definition of the /BinaryNode/ class. Two methods - /IsNode()/ and /UpdateKey()/ are defined as members of this class which check for a valid node and update data in a given node respectively
+
+#+NAME: Binary_Node_Class
+#+BEGIN_SRC js
+
+class BinaryNode {
+  constructor(data = null, left_child = null, right_child = null) {
+    this.data = data;
+    this.left = left_child;
+    this.right = right_child;
+
+  }
+  IsNode() {
+    if (this.data === null && this.left_child === null && this.right_child === null)
+      return true;
+    else if (this.data != null)
+      return true;
+    else
+      return false;
+  }
+  UpdateKey(data, new_data) {
+    if (this.data === data)
+      this.data = new_data;
+  }
+}
+
+
+#+END_SRC
+* Binary Trees 
+  A Binary Tree is a data structure that contains *Binary Nodes*.
+
+** Binary Tree Class
+   The /BinaryTree/ class forms the base class from which various binary trees (like Binary Search Trees and AVL Trees) inherit their properties. The class definition and the various methods that this API provides are listed below:
+
+#+NAME: Binary_Tree_Class
+#+BEGIN_SRC js
+
+  class BinaryTree {
+
+      constructor() {
+          this.root = null;
+          this.animationState = []
+
+      }
+
+      CopyTree(node = this.root) {
+          var CloneTree = function(Root) {
+              if (Root == null)
+                  return null;
+              //create new node and make it a copy of node pointed by Root
+              var NewNode = new BinaryNode();
+              NewNode.data = Root.data; //copying data
+              NewNode.left = CloneTree(Root.left); //cloning left child
+              NewNode.right = CloneTree(Root.right); //cloning right child
+              return NewNode;
+          }
+          var newTree = CloneTree(node);
+          return newTree;
+      }
+
+      CreateNode(Key) {
+          var NewNode = new BinaryNode(Key);
+          return NewNode;
+      }
+
+      Insert(Value) {
+          var NewNode = this.CreateNode(Value);
+
+          function InsertNode(Root, newNode) {
+              var Queue = [];
+              Queue.push(Root); //push the root
+              while (true) {
+                  var node = Queue.pop();
+                  if (node.left === null) {
+                      node.left = newNode;
+                      return;
+                  } else {
+                      Queue.unshift(node.left)
+                  }
+
+                  if (node.right === null) {
+                      node.right = newNode;
+                      return;
+                  } else {
+                      Queue.unshift(node.right)
+                  }
+              }
+          }
+          if (this.root === null)
+              this.root = NewNode;
+          else
+              InsertNode(this.root, NewNode);
+          return this;
+      }
+
+      BuildTree(NodeList = null) {
+          for (let node in NodeList) {
+              this.Insert(NodeList[node]);
+          }
+          return this;
+      }
+
+      GetRootNode() {
+          return this.root;
+      }
+
+      Size() {
+          var CalSize = function(Root) {
+              if (Root != null) {
+                  return 1 + CalSize(Root.left) + CalSize(Root.right);
+              } else {
+                  return 0;
+              }
+          }
+          var size = CalSize(this.root);
+          return size;
+      }
+
+      GenerateState() {
+          var stater;
+
+          if (this.root == null) {
+              console.log("Root is NULL")
+              return null;
+          }
+
+          function gen(root, starter) {
+
+              if (root.left != null || root.right != null) {
+                  starter.children = []
+
+                  if (root.left != null) {
+
+                      starter.children.push({
+                          data: root.left.data
+                      })
+                      gen(root.left, starter.children[0])
+                  }
+                  if (root.right != null) {
+
+                      starter.children.push({
+                          data: root.right.data
+                      })
+                      if (starter.children.length > 1) {
+
+                          gen(root.right, starter.children[1])
+
+                      } else {
+                          gen(root.right, starter.children[0])
+
+                      }
+                  }
+              }
+          }
+          stater = {
+              data: this.root.data,
+              children: []
+          };
+          gen(this.root, stater)
+          return stater
+      }
+
+
+      InOrder() {
+          this.animationState = []
+          var context = this;
+
+          function Inorderhelper(Root, node_list) {
+
+              if (Root !== null) {
+                  let list = [context.GenerateState(), Root.data, "", "black"]
+                  context.animationState.push(list)
+                  if (Root.left != null) {
+                      Inorderhelper(Root.left, node_list);
+                  }
+                  // console.log(Root.data); // Need to save states here
+
+                  list = [context.GenerateState(), Root.data, " " + Root.data + " ", "red"]
+                  context.animationState.push(list)
+                  node_list.push(Root.data);
+                  if (Root.right != null) {
+                      Inorderhelper(Root.right, node_list);
+
+
+                      list = [context.GenerateState(), Root.data, "", "black"]
+                      context.animationState.push(list)
+                  }
+                  // return node_list;
+              }
+          }
+          var node_list = [];
+          let list = [context.GenerateState(), -999, "In Order : [ ", "black"]
+          context.animationState.push(list)
+          Inorderhelper(this.root, node_list)
+
+          list = [context.GenerateState(), -999, " ] ", "black"]
+          context.animationState.push(list)
+
+          return node_list;
+          // console.log(node_list);
+      }
+
+      PreOrder() {
+          this.animationState = []
+          var context = this
+
+          function PreOrderhelper(Root, node_list) {
+              if (Root != null) {
+                  let list = [context.GenerateState(), Root.data, " " + Root.data + " ", "red"]
+                  context.animationState.push(list)
+                  node_list.push(Root.data);
+                  if (Root.left != null) {
+                      PreOrderhelper(Root.left, node_list);
+                      list = [context.GenerateState(), Root.data, "", "black"]
+                      context.animationState.push(list)
+                  }
+                  if (Root.right != null) {
+                      PreOrderhelper(Root.right, node_list);
+                      list = [context.GenerateState(), Root.data, "", "black"]
+                      context.animationState.push(list)
+                  }
+              }
+          }
+          var node_list = [];
+
+          let list = [context.GenerateState(), -999, "Pre Order : [ ", "black"]
+          context.animationState.push(list)
+          PreOrderhelper(this.root, node_list);
+          list = [context.GenerateState(), -999, " ] ", "black"]
+          context.animationState.push(list)
+          return node_list;
+
+      }
+
+      PostOrder() {
+          this.animationState = []
+          var context = this
+
+          function PostOrderhelper(Root, node_list) {
+              if (Root != null) {
+                  let list = [context.GenerateState(), Root.data, "", "black"]
+                  context.animationState.push(list)
+                  if (Root.left != null) {
+                      PostOrderhelper(Root.left, node_list);
+                      list = [context.GenerateState(), Root.data, "", "black"]
+                      context.animationState.push(list)
+                  }
+                  if (Root.right != null) {
+                      PostOrderhelper(Root.right, node_list);
+                  }
+                  list = [context.GenerateState(), Root.data, " " + Root.data + " ", "red"]
+                  context.animationState.push(list)
+
+                  node_list.push(Root.data);
+              }
+          }
+          var node_list = [];
+          let list = [context.GenerateState(), -999, "Post Order : [ ", "black"]
+          context.animationState.push(list)
+          PostOrderhelper(this.root, node_list);
+          list = [context.GenerateState(), -999, " ] ", "black"]
+          context.animationState.push(list)
+          // console.log(node_list);
+          return node_list;
+      }
+
+
+      Erase() {
+          this.root = null;
+          return null;
+      }
+
+
+      Height() {
+          var HeightWithRoot = function(Root) {
+              if (Root == null)
+                  return 0;
+              let lHeight = HeightWithRoot(Root.left);
+              let rHeight = HeightWithRoot(Root.right);
+              if (lHeight > rHeight)
+                  return 1 + lHeight;
+              return 1 + rHeight;
+          }
+          var height = HeightWithRoot(this.root);
+          return height;
+      }
+
+
+
+      Level() {
+          var LevelWithRoot = function(Root) {
+              if (Root == null)
+                  return 0;
+              var lHeight = LevelWithRoot(Root.left);
+              var rHeight = LevelWithRoot(Root.right);
+              if (lHeight > rHeight)
+                  return 1 + lHeight;
+              return 1 + rHeight;
+          }
+          var level = LevelWithRoot(this.root);
+          return level;
+      }
+
+      Search(Root, Key) {
+          if (Root === null)
+              return null;
+          if (Key == Root.data)
+              return Root;
+          return (this.Search(Root.left, Key) || this.Search(Root.right, Key));
+      }
+
+
+  };
+
+#+END_SRC
+The details of the various methods defined in the /BinaryTree/ class are as follows:
+
+*** CreateNode(Value):
+    The /CreateNode/ method takes the value of the node to be created as an argument. It is invoked by an object of the /Binary Tree/ class and can create a single Binary Node as a result. This method is also used by other methods like /Insert/ to build Binary Trees.
+
+#+BEGIN_SRC js
+          CreateNode(Key){
+              var NewNode = new BinaryNode(Key);
+              return NewNode;
+          }
+#+END_SRC
+
+To create a new node the following syntax can be used:
+
+#+BEGIN_EXAMPLE
+	var newTree = new BinaryTree();
+	newTree.CreateNode(10);
+#+END_EXAMPLE
+
+This creates and returns a Binary Node with node value 10 and value of both Left-child and Right-child as null.
+
+*** Insert(Value):
+    The /Insert/ method takes the value of the new node to be created as an argument, inserts a new node to the tree and returns the modified tree.
+#+BEGIN_SRC js
+  Insert(Value){
+      var NewNode = this.CreateNode(Value);
+       if(this.root===null)
+            this.root = NewNode;
+        else
+            InsertNode(this.root,NewNode);
+        return this;}
+#+END_SRC
+
+This method calls a helper function called /InsertNode/ defined in the code snippet below.
+
+#+BEGIN_SRC js
+          function InsertNode(Root,newNode){
+              var Queue = [];
+              Queue.push(Root); //push the root
+              while(true){
+                  var node = Queue.pop();
+                  if(node.left === null){
+                      node.left = newNode;
+                      return;
+                  } else {
+                      Queue.unshift(node.left)
+                  }
+
+                  if(node.right === null){
+                      node.right = newNode;
+                  return;
+                  } else {
+                      Queue.unshift(node.right)
+                  }
+              }
+          }
+
+#+END_SRC
+
+To insert a new node into the (previously created) Binary Tree, the following syntax is used:
+
+#+BEGIN_EXAMPLE
+  var newTree = new BinaryTree();
+  newTree.Insert(5);
+
+#+END_EXAMPLE
+This creates a new Binary Node with value = 4 and inserts it as the left-child of the Binary Tree.
+
+*** BuildTree(nodelist)
+This method can be used to rapidly build a Binary Tree. It takes a list of nodes as an argument and constructs the Binary Tree from that list of nodes. It calls the /Insert/ method described as it iterates through the list to construct the tree.
+
+#+BEGIN_SRC js
+  BuildTree(NodeList=null){
+      for(let node in NodeList){
+          this.Insert(NodeList[node]);
+      }
+      return this;
+  }
+
+#+END_SRC
+
+This method can be used as:
+#+BEGIN_EXAMPLE
+  newTree.BuildTree([6,8,2,9,1,3]);
+#+END_EXAMPLE
+
+This will insert in the Binary Tree all then values in the list.
+
+*** GetRootNode():
+    This simple method returns the root element i.e. the Binary Node in the root of the tree.
+#+BEGIN_SRC js
+      GetRootNode(){
+          return this.root;
+      }
+#+END_SRC
+
+Usage:
+#+BEGIN_EXAMPLE
+    newTree.GetRootNode();
+#+END_EXAMPLE
+
+This returns the root node of the tree (5 in this case)
+
+*** Size():
+    This method counts the total number of nodes that are present in the Binary Tree and returns that value. A helper function called /CalSize/ to count the total number of nodes starting from the root node of the tree.
+#+BEGIN_SRC js
+    Size(){
+        var size = CalSize(this.root);
+        return size;
+    }
+
+#+END_SRC
+The helper function /Calsize/ is defined as:
+#+BEGIN_SRC js
+    var CalSize = function (Root){
+        if(Root != null){
+            return   1 + CalSize(Root.left)   +   CalSize(Root.right);
+        }
+        else{
+            return 0;
+        }
+    }
+#+END_SRC
+
+This method can be used as:
+#+BEGIN_EXAMPLE
+    newTree.Size();
+#+END_EXAMPLE
+
+*** Height():
+    This method calculates the height of the Binary Tree and returns that value. A helper function called /HeightWithRoot/ to calculate the height from the root node of the tree.
+#+BEGIN_SRC js
+  Height(){
+      var height = HeightWithRoot(this.root);
+      return height;
+  }
+
+#+END_SRC
+The helper function /HeightWithRoot/ is defined as:
+#+BEGIN_SRC js
+    var HeightWithRoot = function(Root){
+            if(Root == null)
+                return 0;
+            let lHeight = HeightWithRoot(Root.left);
+            let rHeight = HeightWithRoot(Root.right);
+            if(lHeight > rHeight)
+                return 1 + lHeight;
+            return 1 + rHeight;
+    }
+#+END_SRC
+
+This method can be used as:
+#+BEGIN_EXAMPLE
+    newTree.Height();
+#+END_EXAMPLE
+
+
+*** Level():
+    This method calculates the number of levels (from of the root) of the Binary Tree and returns that value. A helper function called /LevelWithRoot/ to calculate the number of levels from the root node of the tree.
+#+BEGIN_SRC js
+    Level(){
+        var level = LevelWithRoot(this.root);
+        return level;
+    }
+
+#+END_SRC
+The helper function /LevelWithRoot/ is defined as:
+#+BEGIN_SRC js
+   var LevelWithRoot = function(Root){
+       if(Root == null)
+           return 0;
+       var lHeight = LevelWithRoot(Root.left);
+       var rHeight = LevelWithRoot(Root.right);
+       if(lHeight > rHeight)
+           return 1 + lHeight;
+       return 1 + rHeight;
+  }
+#+END_SRC
+
+This method can be used as:
+#+BEGIN_EXAMPLE
+    newTree.Level();
+#+END_EXAMPLE
+
+*** Search(Root,Key):
+    This is a helper function which is used by search trees like Binary Search Trees (which extend Binary Tree class). It is defined as:
+#+BEGIN_SRC js
+  Search(Root, Key){
+      if(Root === null)
+          return null;
+      if(Key == Root.data)
+          return Root;
+      return (this.Search(Root.left, Key) || this.Search(Root.right, Key));
+  }
+
+#+END_SRC
+
+*** Erase():
+    This simple method is used to erase a Binary Tree. It is defined as:
+#+BEGIN_SRC js
+  Erase(){
+      this.root=null;
+      return null;
+  }
+
+#+END_SRC
+
+*** CopyTree():
+    This method is used to create a copy of a Binary Tree. It makes a call to a function /CloneTree()/ which creates a copy of the tree from the node passed to it as an argument. It is defined as:
+#+BEGIN_SRC js
+  CopyTree(node = this.root){
+      var newTree = CloneTree(node);
+      return newTree;
+  }
+
+#+END_SRC
+The /CloneTree()/ function is defined as:
+#+BEGIN_SRC js
+  var CloneTree = function (Root){
+      if(Root == null)
+          return null;
+      //create new node and make it a copy of node pointed by Root
+      var NewNode = new BinaryNode();
+      NewNode.data = Root.data;    //copying data
+      NewNode.left = CloneTree(Root.left);    //cloning left child
+      NewNode.right = CloneTree(Root.right);  //cloning right child
+      return NewNode;
+  }
+
+#+END_SRC
+
+*** InOrder():
+    This method performs in-order traversal of the tree and returns a list of nodes. It calls a helper function /Inorderhelper/ to traverse through each node. It is defined as:
+#+BEGIN_SRC js
+  InOrder(){
+      var node_list = [];
+      Inorderhelper(this.root,node_list)
+      return node_list;
+      // console.log(node_list);
+  }
+
+#+END_SRC
+The helper function /Inorderhelper/ is defined as:
+#+BEGIN_SRC js
+  function Inorderhelper(Root,node_list) {
+      if(Root !== null){
+          Inorderhelper(Root.left,node_list);
+          // console.log(Root.data); // Need to save states here
+          node_list.push(Root.data);
+          Inorderhelper(Root.right,node_list);
+          // return node_list;
+      }
+  }
+
+#+END_SRC
+
+*** PreOrder():
+    This method performs pre-order traversal of the tree and returns a list of nodes. It calls a helper function /PreOrderhelper/ to traverse through each node. It is defined as:
+#+BEGIN_SRC js
+  PreOrder(){
+        var node_list = [];
+        PreOrderhelper(this.root,node_list);
+        // console.log(node_list);
+        return node_list;
+    }
+
+#+END_SRC
+The helper function /PreOrderhelper/ is defined as:
+#+BEGIN_SRC js
+  function PreOrderhelper(Root, node_list){
+      if(Root != null){
+          node_list.push(Root.data);
+          PreOrderhelper(Root.left,node_list);
+          PreOrderhelper(Root.right,node_list);
+      }
+  }
+
+#+END_SRC
+
+*** PostOrder():
+    This method performs post-order traversal of the tree and returns a list of nodes. It calls a helper function /PostOrderhelper/ to traverse through each node. It is defined as:
+#+BEGIN_SRC js
+  PostOrder(){
+        var node_list = [];
+        PostOrderhelper(this.root,node_list);
+        // console.log(node_list);
+        return node_list;
+    }
+
+#+END_SRC
+The helper function /PostOrderhelper/ is defined as:
+#+BEGIN_SRC js
+  function PostOrderhelper(Root,node_list){
+      if(Root != null){
+          PostOrderhelper(Root.left,node_list);
+          PostOrderhelper(Root.right,node_list);
+          node_list.push(Root.data);
+      }
+  }
+
+#+END_SRC
+
+
+** Binary Search Tree Class
+   The Binary Search Tree Class is used to create Binary Search Trees and perform various operations on them.Binary Search Trees are special binary trees with the property that the value of *Left-child* in the triplet *(Data,Left-child,Right-child)* is always less than the value of *Data* which is in turn less than the value of *Right-child*. The state information of the Binary Search Tree is also preserved during operation which along with a status message is stored in the /animationState/ list which can be used by a renderer program to generate a visual representation of the Binary Search Trees (using the information stored in JSON format)  Following are the methods defined on a Binary Search Tree. Notice that most of these methods use the methods defined in /BinaryTree/ class as /BinarySearchTree/ class inherits from the /BinaryTree/ class.
+
+#+NAME: Binary_Search_Tree_Class
+#+BEGIN_SRC js
+
+  class BinarySearchTree extends BinaryTree {
+      constructor() {
+          super();
+      }
+
+
+      CopyTree(node = this.root) {
+          var newTree = new BinarySearchTree();
+          var TempTree = new BinaryTree();
+          newTree.root = TempTree.CopyTree(this.root);
+          return newTree;
+      }
+
+      FindMinimum() {
+          this.animationState = []
+          if (this.root == null) {
+              let list = [this.GenerateState(), -999, "Tree is empty!<br>", "black"]
+              this.animationState.push(list)
+              return null;
+          }
+          this.FindMinNode(this.root)
+      }
+
+      FindMinNode(Root) {
+          if (Root.left === null) {
+              let list = [this.GenerateState(), Root.data, "Since (" + Root.data + ") node has no left child therefore (" + Root.data + ") is the minimum valued node.<br>", "blue"]
+              this.animationState.push(list)
+
+              list = [this.GenerateState(), Root.data, "", "blue"]
+              this.animationState.push(list)
+
+              list = [this.GenerateState(), Root.data, "", "blue"]
+              this.animationState.push(list)
+              return Root;
+
+          } 
+          else {
+              let list = [this.GenerateState(), Root.data, "Since (" + Root.data + ") has a left child (" + Root.left.data + ") so we will continue traversing its left child to find the minimum node<br>", "black"]
+              this.animationState.push(list)
+
+              return this.FindMinNode(Root.left);
+          }
+
+      }
+      Search(data) {
+          this.animationState = []
+          return this.SearchFactory(data)
+      }
+      SearchFactory(data) {
+          var context = this
+          var SearchWithRoot = function(Root, Key) {
+              if (Root === null) {
+                  let list = [context.GenerateState(), -999, "We've encountered a null node while searching for (" + Key + "). This implies that the search key is not present<br>", "black"]
+                  context.animationState.push(list)
+                  return null;
+                  
+              }
+              else if (Key < Root.data) {
+                  let list = [context.GenerateState(), Root.data, "Since (" + Key + ") is less than (" + Root.data + ") so we traverse left <br>", "black"]
+                  context.animationState.push(list)
+                  return SearchWithRoot(Root.left, Key);
+                  
+              } 
+              else if (Key > Root.data) {
+                  let list = [context.GenerateState(), Root.data, "Since (" + Key + ") is greater than (" + Root.data + ") so we traverse right <br>", "black"]
+                  context.animationState.push(list)
+                  return SearchWithRoot(Root.right, Key);
+
+              } 
+              else {
+                  let list = [context.GenerateState(), Root.data, "(" + Key + ") Found! <br>", "#ffae42"]
+                  context.animationState.push(list)
+                  list = [context.GenerateState(), Root.data, "", "#ffae42"]
+                  context.animationState.push(list)
+                  list = [context.GenerateState(), Root.data, "", "#ffae42"]
+                  context.animationState.push(list)
+                  return Root;
+                  
+              }
+          }
+          var found = SearchWithRoot(this.root, data);
+          return found;
+      }
+
+      RightSubTree() {
+          var newTree = new BinarySearchTree();
+          var TempTree = new BinaryTree();
+          newTree.root = TempTree.CopyTree(this.root.right);
+          return newTree;
+      }
+      
+      LeftSubTree() {
+          var newTree = new BinarySearchTree();
+          var TempTree = new BinaryTree();
+          newTree.root = TempTree.CopyTree(this.root.left);
+          return newTree;
+      }
+
+
+      Insert(Key) {
+          
+          var found = this.SearchFactory(Key);
+          if (found !== null) {
+              console.log("Node with value (", Key, ") already exists! No insertion done");
+              this.animationState = []
+              let list = [this.GenerateState(), -999, "Node with value (" + Key + ") already exists! Therefore no insertion done", "black"]
+              this.animationState.push(list)
+              return this;
+          }
+
+          var NewNode = this.CreateNode(Key);
+          var context = this;
+
+          function InsertNode(Root, newNode) {
+              if (newNode.data < Root.data) {
+                  let list = [context.GenerateState(), Root.data, "Since (" + newNode.data + ") is less than (" + Root.data + ") so we will traverse left <br>", "black"]
+          context.animationState.push(list)
+                  if (Root.left === null) {
+                      let list = [context.GenerateState(), Root.data, "Since (" + Root.data + ") has no left-child, so we will add the node as the left-child <br>", "black"]
+                      context.animationState.push(list)
+                      Root.left = newNode;
+                      list = [context.GenerateState(), newNode.data, "(" + newNode.data + ") added to the tree <br>", "#006400"]
+
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, "", "#006400"]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, "", "#006400"]
+                      context.animationState.push(list)
+                  } 
+                  else
+                      InsertNode(Root.left, newNode);
+              }
+              else {
+                  let list = [context.GenerateState(), Root.data, "Since (" + newNode.data + ") is greater than (" + Root.data + ") so we will traverse right <br>", "black"]
+                  context.animationState.push(list)
+                  if (Root.right === null) {
+                      let list = [context.GenerateState(), Root.data, "Since (" + Root.data + ") has no right-child, so we will add the node as the right-child <br>", "black"]
+                      context.animationState.push(list)
+                      Root.right = newNode;
+                      list = [context.GenerateState(), newNode.data, "(" + newNode.data + ") added to the tree <br>", "#006400"]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, "", "#006400"]
+                      context.animationState.push(list)
+                      list = [context.GenerateState(), newNode.data, "", "#006400"]
+                      context.animationState.push(list)
+
+                  } 
+                  else {
+
+                      InsertNode(Root.right, newNode);
+
+                  }
+              }
+          }
+
+          if (this.root === null) {
+              this.root = NewNode;
+              this.animationState = []
+              var list = [this.GenerateState(), this.root.data, "Tree has no nodes thus we add (" + NewNode.data + ") as the root node <br>", "#006400"]
+              this.animationState.push(list)
+              
+              list = [context.GenerateState(), this.root.data, "", "#006400"]
+              this.animationState.push(list)
+              list = [context.GenerateState(), this.root.data, "", "#006400"]
+              this.animationState.push(list)
+
+          }
+          else {
+              this.animationState = []
+              var list = [this.GenerateState(), this.root.data, "We Insert to the tree by exploring from the root node <br>", "black"]
+              this.animationState.push(list)
+
+              InsertNode(this.root, NewNode);
+
+          }
+          return this;
+      }
+
+
+
+      BuildTree(NodeList = null) {
+          for (let node in NodeList) {
+              this.Insert(NodeList[node]);
+          }
+          return this;
+      }
+
+      Remove(data) {
+          this.animationState = []
+          var context = this
+          var found = this.SearchFactory(data);
+          if (found === null) {
+              console.log("Node with data (", data, ") not found!");
+              return this;
+          }
+          this.animationState = []
+          var that = this;
+          
+          function RemoveNode(Root, data) {
+              if (Root === null)
+                  return null;
+              else if (data < Root.data) {
+                  let list = [context.GenerateState(), Root.data, "Since (" + data + ") is less than (" + Root.data + ") so we will traverse left <br>", "black"]
+                  context.animationState.push(list)
+                  Root.left = RemoveNode(Root.left, data);
+                  return Root;
+              }
+              else if (data > Root.data) {
+                  let list = [context.GenerateState(), Root.data, "Since (" + data + ") is greater than (" + Root.data + ") so we will traverse right <br>", "black"]
+                  context.animationState.push(list)
+                  Root.right = RemoveNode(Root.right, data);
+                  return Root;
+              } 
+              else {
+                  let list = [context.GenerateState(), Root.data, "Reached (" + Root.data + ") node <br>", "red"]
+                  context.animationState.push(list)
+                  
+                  if (Root.left === null && Root.right === null) {
+                      list = [context.GenerateState(), Root.data, "Since (" + Root.data + ") has no children so will return null to its parent <br>", "red"]
+                      context.animationState.push(list)
+
+                      Root = null;
+                      return Root;
+                  }
+                  if (Root.left === null) {
+                      list = [context.GenerateState(), Root.data, "Since (" + Root.data + ") has no left child but a right child, so we will attach the right child i.e. (" + Root.right.data + ")  to (" + Root.data + ")'s parent node <br>", "red"]
+                      context.animationState.push(list)
+                      Root = Root.right;
+                      return Root;
+                  }
+                  else if (Root.right === null) {
+                      let list = [context.GenerateState(), Root.data, "Since (" + Root.data + ") has no right child but a left child so  we will attach the left child i.e. (" + Root.left.data + ")  to (" + Root.data + ")'s parent <br>", "red"]
+                      context.animationState.push(list)
+                      Root = Root.left;
+                      return Root;
+                  }
+                  list = [context.GenerateState(), Root.data, "Since (" + Root.data + " has both a left child as well as a right child so we will pick the minimum of the (" + Root.data + ")s right subtree i.e the successor node<br>", "red"]
+                  context.animationState.push(list)
+                  var aux = that.FindMinNode(Root.right);
+                  list = [context.GenerateState(), Root.data, "Now (" + Root.data + ") will get replaced by (" + aux.data + ") <br>", "red"]
+                  context.animationState.push(list)
+                  Root.data = aux.data;
+
+                  list = [context.GenerateState(), Root.data, "Now we will delete (" + aux.data + ") from  the right subtree. Deletion Complete.<br>", "red"]
+                  context.animationState.push(list)
+                  Root.right = RemoveNode(Root.right, aux.data);
+                  return Root;
+              }
+          }
+          
+          this.root = RemoveNode(this.root, data);
+          let list = [context.GenerateState(), -999, "We now have the Resultant Tree after performing deletion <br>", "black"]
+          context.animationState.push(list)
+          return this;
+      }
+
+
+  };
+
+
+#+END_SRC
+
+The details of the various methods defined in the /BinarySearchTree/ class are as follows:
+
+A new Binary Search Tree can be declared (by calling the constructor) as:
+#+BEGIN_EXAMPLE
+	var bst = new BinarySearchTree();
+#+END_EXAMPLE
+
+*** Insert(Value):
+    This method is used to create a new Binary Node and insert into the existing Binary Search Tree or if no nodes exist in the tree, it designated the newly created node as the root of the tree. It overrides the /Insert/ method of the /BinaryTree/ class. The method internally call a helper function /InsertNode/ to insert the newly created node in the tree. The method can be used as:
+
+#+BEGIN_EXAMPLE
+	bst.Insert(5);
+#+END_EXAMPLE
+ 
+*** BuildTree(Nodelist):
+    This method can be used to rapidly build a Binary Search Tree. It takes a list of nodes as an argument and constructs the Binary Tree from that list of nodes. It overrides the /BuildTree/ method of the /BinaryTree/ class. It calls the /Insert/ method described as it iterates through the list to construct the tree. The method can be used as:
+
+#+BEGIN_EXAMPLE
+	bst.BuildTree([4,6,8,9,7,2,1,3]);
+#+END_EXAMPLE
+
+*** Remove(Value):
+    This method is used to remove a particular node from the Binary Search Tree. It takes the value of the node to be removed as an argument. This method overrides the /Remove/ method of the /BinaryTree/ class. It internally calls the helper function /RemoveNode/. It can be used as:
+
+#+BEGIN_EXAMPLE
+	bst.Remove(8);
+#+END_EXAMPLE
+
+*** CopyTree(node):
+    This method is used to create a copy of the Binary Search Tree and return the created copy (which can then be assigned to another object of type Binary Search Tree) starting from the node given as a parameter (default parameter is root of tree). It internally calls the /CopyNode/ method of the /BinaryTree/ tree. It can be used as:
+
+#+BEGIN_EXAMPLE
+	var bst2 = new BinarySearchTree();   //create new object of BinarySearchTree class
+	bst2 = bst.CopyTree();
+	//To copy the left subtree from root
+	bst2 = bst.CopyTree(root.left);
+#+END_EXAMPLE
+
+*** Search(Value):
+    Using this method it is possible to search for a value given as parameter in the Binary Search Tree. If the node having value as the one given given as a parameter exists, it is returned, else a 'Node not found' message is returned. It internally calls a helper function /SearchFactory/. This method overrides the /Search/ method defined in /BinaryTree/ class. It can be used as:
+
+#+BEGIN_EXAMPLE
+	bst.Search(6);
+#+END_EXAMPLE
+    
+
+*** FindMinimum():
+	This method returns the minimum valued node in the Binary Search Tree. It internally calls the /FindMinNode/ helper function. It can be used as:
+
+#+BEGIN_EXAMPLE
+	bst.FindMinimum();
+#+END_EXAMPLE
+
+*** RightSubtree():
+    This method return the right subtree of the Binary Search Tree. It internally calls the /CopyTree/ method. Since a Binary Search Tree is returned, it can be assigned to another object of /BinarySearchTree/ class. It can be used as:
+
+#+BEGIN_EXAMPLE
+	bst2 = new BinarySearchTree();
+	bst2 = bst.RightSubtree();
+#+END_EXAMPLE
+
+*** LeftSubtree():
+     This method return the left subtree of the Binary Search Tree. It internally calls the /CopyTree/ method. Since a Binary Search Tree is returned, it can be assigned to another object of /BinarySearchTree/ class. It can be used as:
+
+#+BEGIN_EXAMPLE
+	bst2 = new BinarySearchTree();
+	bst2 = bst.LeftSubtree();
+#+END_EXAMPLE
+
+*** GenerateState():
+    This method is for internal usage to generate the state of the Binary Search Tree that is later used by the renderer and subsequently by the user application.
+
+** COMMENT AVL Tree Class
+#+NAME: AVL_Tree_Class
+#+BEGIN_SRC js :exports none :eval never-export
+
+///////////////////////////////////////////////////////////////////////////////////
+
+// The following code provides the developer with the basic functions on AVL Trees (through developer console) //
+// It has not yet been interfaced with the renderer and presently not available for use by the end-user //
+
+///////////////////////////////////////////////////////////////////////////////////
+
+class AVLNode extends BinaryNode
+{
+  constructor(data = null,left_child = null,right_child = null){
+      super(data,left_child,right_child);
+      this.height=0;
+
+  }
+};
+
+class AVLTree extends BinarySearchTree{
+
+// A utility function to get the height of the tree
+height(N)
+{
+    if (N === null)
+        return 0;
+    return N.height;
+}
+
+// A utility function to get maximum of two integers
+max(a,b)
+{
+    if(a>b)
+    {
+      return a;
+    }
+    return b;
+}
+
+/* Helper function that allocates a new node with the given data and
+    NULL left and right pointers. */
+newNode(data)
+{
+    var node = new AVLNode();
+    node.data   = data;
+    node.height = 1;  // new node is initially added at leaf
+    return node;
+}
+
+// A utility function to right rotate subtree rooted with y
+// See the diagram given above.
+rightRotate(y)
+{
+    var x = y.left;
+    var T2 = x.right;
+
+    // Perform rotation
+    x.right = y;
+    y.left = T2;
+
+    // Update heights
+    y.height = this.max(this.height(y.left), this.height(y.right))+1;
+    x.height = this.max(this.height(x.left), this.height(x.right))+1;
+
+    // Return new root
+    return x;
+}
+
+// A utility function to left rotate subtree rooted with x
+// See the diagram given above.
+leftRotate(x)
+{
+  var  y = x.right;
+  var  T2 = y.left;
+
+    // Perform rotation
+    y.left = x;
+    x.right = T2;
+
+    //  Update heights
+    x.height = this.max(this.height(x.left), this.height(x.right))+1;
+    y.height = this.max(this.height(y.left), this.height(y.right))+1;
+
+    // Return new root
+    return y;
+}
+
+// Get Balance factor of node N
+getBalance(N)
+{
+    if (N === null)
+        return 0;
+    return this.height(N.left) - this.height(N.right);
+}
+Insert(data){
+
+this.root =   this.inserthelper(this.root,data);
+}
+// Recursive function to insert a data in the subtree rooted
+// with node and returns the new root of the subtree.
+inserthelper(node,data)
+{
+    /* 1.  Perform the normal BST insertion */
+    if (node === null)
+        return(this.newNode(data));
+
+    if (data < node.data)
+        node.left  = this.inserthelper(node.left, data);
+    else if (data > node.data)
+        node.right = this.inserthelper(node.right, data);
+    else // Equal datas are not allowed in BST
+        return node;
+
+    /* 2. Update height of this ancestor node */
+    node.height = 1 + this.max(this.height(node.left),
+                           this.height(node.right));
+
+    /* 3. Get the balance factor of this ancestor
+          node to check whether this node became
+          unbalanced */
+  var  balance = this.getBalance(node);
+
+    // If this node becomes unbalanced, then
+    // there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && data < node.left.data)
+        return this.rightRotate(node);
+
+    // Right Right Case
+    if (balance < -1 && data > node.right.data)
+        return this.leftRotate(node);
+
+    // Left Right Case
+    if (balance > 1 && data > node.left.data)
+    {
+        node.left =  this.leftRotate(node.left);
+        return this.rightRotate(node);
+    }
+
+    // Right Left Case
+    if (balance < -1 && data < node.right.data)
+    {
+        node.right = rightRotate(node.right);
+        return this.leftRotate(node);
+    }
+
+    /* return the (unchanged) node pointer */
+    return node;
+}
+minValueNode(node)
+{
+var current = node;
+
+    /* loop down to find the leftmost leaf */
+    while (current.left != null)
+        current = current.left;
+
+    return current;
+}
+
+// Recursive function to delete a node with given data
+// from subtree with given root. It returns root of
+// the modified subtree.
+Delete(data){
+  this.root = this.deleteNode(this.root,data);
+}
+deleteNode(root,data)
+{
+    // STEP 1: PERFORM STANDARD BST DELETE
+
+    if (root ===null)
+        return root;
+
+    // If the data to be deleted is smaller than the
+    // root's data, then it lies in left subtree
+    if ( data < root.data )
+        root.left = this.deleteNode(root.left, data);
+
+    // If the data to be deleted is greater than the
+    // root's data, then it lies in right subtree
+    else if( data > root.data )
+        root.right = this.deleteNode(root.right, data);
+
+    // if data is same as root's data, then This is
+    // the node to be deleted
+    else
+    {
+        // node with only one child or no child
+        if( (root.left === null) || (root.right === null) )
+        {
+            var temp = root.left ? root.left : root.right;
+
+            // No child case
+            if (temp === null)
+            {
+                temp = root;
+                root = null;
+            }
+            else // One child case
+              root = temp; // Copy the contents of
+                            // the non-empty child
+
+        }
+        else
+        {
+            // node with two children: Get the inorder
+            // successor (smallest in the right subtree)
+            temp = this.minValueNode(root.right);
+
+            // Copy the inorder successor's data to this node
+            root.data = temp.data;
+
+            // Delete the inorder successor
+            root.right = this.deleteNode(root.right, temp.data);
+        }
+    }
+
+    // If the tree had only one node then return
+    if (root === null)
+      return root;
+
+    // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
+    root.height = 1 + this.max(this.height(root.left),
+                           this.height(root.right));
+
+    // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to
+    // check whether this node became unbalanced)
+    var balance = this.getBalance(root);
+
+    // If this node becomes unbalanced, then there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && this.getBalance(root.left) >= 0)
+        return this.rightRotate(root);
+
+    // Left Right Case
+    if (balance > 1 && this.getBalance(root.left) < 0)
+    {
+        root.left =  this.leftRotate(root.left);
+        return this.rightRotate(root);
+    }
+
+    // Right Right Case
+    if (balance < -1 && this.getBalance(root.right) <= 0)
+        return this.leftRotate(root);
+
+    // Right Left Case
+    if (balance < -1 && this.getBalance(root.right) > 0)
+    {
+        root.right = this.rightRotate(root.right);
+        return this.leftRotate(root);
+    }
+
+    return root;
+}
+
+
+};
+
+#+END_SRC
+
+* Tangle 
+#+BEGIN_SRC js :tangle tree-library.js :eval no :noweb yes
+<<Binary_Node_Class>>
+<<Binary_Tree_Class>>
+<<Binary_Search_Tree_Class>>
+<<AVL_Tree_Class>>
+#+END_SRC
